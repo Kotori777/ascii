@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/k/Documents/GitHub/ascii/build",
-  "command": "/usr/bin/c++  -I/home/k/Documents/GitHub/ascii/src -isystem /usr/include/opencv4 -std=gnu++23 -o CMakeFiles/ascii.dir/main.cpp.o -c /home/k/Documents/GitHub/ascii/src/main.cpp",
-  "file": "/home/k/Documents/GitHub/ascii/src/main.cpp",
-  "output": "CMakeFiles/ascii.dir/main.cpp.o"
-}
-]

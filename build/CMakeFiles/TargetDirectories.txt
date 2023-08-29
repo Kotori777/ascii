@@ -1,3 +1,0 @@
-/home/k/Documents/GitHub/ascii/build/CMakeFiles/ascii.dir
-/home/k/Documents/GitHub/ascii/build/CMakeFiles/edit_cache.dir
-/home/k/Documents/GitHub/ascii/build/CMakeFiles/rebuild_cache.dir
