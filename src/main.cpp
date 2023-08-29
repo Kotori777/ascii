@@ -1,16 +1,12 @@
 #include "opencv4/opencv2/opencv.hpp"	
 
 #include <iostream> 
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/imgproc.hpp>
-#include <thread>
 #include <thread> 
 #include <string> 
 
 std::string pixel_to_ascii(int pixel_intensity)
 {
-	const std::string chars = "@#%&$!*+=-. "; 
+	const std::string chars = " .,-+=!|$&%#08@"; 
  
 	return std::string(1, chars[(pixel_intensity * chars.length()) / 256]); 
 }
@@ -39,7 +35,7 @@ int main(int argc, char* argv[])
 	{
 		try 
 		{
-			cv::cvtColor(image, grayscale_image, cv::COLOR_BGR2GRAY); 	
+			cv::cvtColor(image, grayscale_image, cv::COLOR_RGB2GRAY); 	
 		}
 		catch (cv::Exception e)
 		{
@@ -54,7 +50,7 @@ int main(int argc, char* argv[])
 
 	/* MAKE NEW IMAGE TO TARGET RES*/
 
-	cv::Size target_res(420, 720); // example size for testing, can be changed later. Maybe should be a thing that you can choose at command line. 				       
+	cv::Size target_res(720, 460); // example size for testing, can be changed later. Maybe should be a thing that you can choose at command line. 				       
 	cv::Mat resized_image; 
 
 	if (grayscale_image.size() != target_res)
@@ -76,21 +72,16 @@ int main(int argc, char* argv[])
 
 	/* PRINT ASCII ART TO SCREEN */ 
 
-	int x;
-	int y; 
-
 	//For some reason x and y are mixed up????!?!?!?!?!?!??!?!?>!?!?!?! thanks opencv :(
-	for (x = 0; x != resized_image.rows; x++)
+	for (int x = 0; x != resized_image.rows; x++)
 	{
-		for(y = 0; y != resized_image.cols; y++)
+		for(int y = 0; y != resized_image.cols; y++)
 		{
 			std::string v = pixel_to_ascii(resized_image.at<uchar>(x, y)); // okay?  
 			std::cout << v; 
 		}
 		std::cout << std::endl; 
 	}
-
-	std::cout << std::endl << "The values of x, and y are: " << x << ", " << y << std::endl; 
 
 	return 0; 
 }
