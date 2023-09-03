@@ -77,12 +77,14 @@ int fn_image_2_ascii(cv::Mat& image)
 int fn_video_2_ascii(cv::VideoCapture& video)
 {
 	cv::Mat frame; 
-
+	
 	if (!video.isOpened())
 	{
 		std::cerr << "err: video could not be opened" << std::endl; 
 		return 1; 
 	}
+	
+	const int frame_dur = 1; 
 
 	while (video.read(frame))
 	{
@@ -107,7 +109,7 @@ int fn_video_2_ascii(cv::VideoCapture& video)
 
 		/* MAKE NEW FRAME TO TARGET RES*/
 
-		cv::Size target_res(720, 460); 			       
+		const cv::Size target_res(760, 200); 			       
 		
 		cv::Mat resized_frame; 
 
@@ -123,27 +125,32 @@ int fn_video_2_ascii(cv::VideoCapture& video)
 				return 1; 
 			}
 		}
-		else		{
+		else		
+		{
 			resized_frame = grayscale_frame.clone(); 
 		}
 
-		/* PRINT ASCII FRAME TO SCREEN */ 
+		/* create buffer */ 
+
+		std::string print_buffer; 
 
 		for (int x = 0; x != resized_frame.rows; x++)
 		{
 			for(int y = 0; y != resized_frame.cols; y++)
 			{
-				std::string v = fn_pixel_to_ascii(resized_frame.at<uchar>(x, y)); 				 
+				print_buffer += fn_pixel_to_ascii(resized_frame.at<uchar>(x, y));  
 			}
-			std::cout << std::endl; 
+			print_buffer += "\n";
 		}
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(133)); 
-
 		system("clear"); 
+
+		std::cout << print_buffer;
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(frame_dur));
 	}
 
-	return 1; 
+	return 0; 
 }
 
 int main(int argc, char* argv[])
@@ -172,6 +179,9 @@ int main(int argc, char* argv[])
 			std::cerr << "err: invalid video path" << std::endl; 
 			return 1;
 		}
+	
+		//TODO: either find a library to do this for me, or figure out how to add the correct path to the output/create a file for the output
+		system("ffplay -autoexit -window_title \"ASCII Video Player\" ~/Downloads/output.wav &"); 
 
 		if (fn_video_2_ascii(cv_video) == 1)
 		{
