@@ -84,7 +84,9 @@ int fn_video_2_ascii(cv::VideoCapture& video)
 		return 1; 
 	}
 	
-	const int frame_dur = 1; 
+	const long frame_dur = 1000/140;; 
+
+	std::cout << "ms" << frame_dur; 
 
 	while (video.read(frame))
 	{
@@ -109,7 +111,10 @@ int fn_video_2_ascii(cv::VideoCapture& video)
 
 		/* MAKE NEW FRAME TO TARGET RES*/
 
-		const cv::Size target_res(760, 200); 			       
+		const int WIDTH = 760; 
+		const int HEIGHT = 180; 
+
+		const cv::Size target_res(WIDTH, HEIGHT); 			       
 		
 		cv::Mat resized_frame; 
 
@@ -142,13 +147,18 @@ int fn_video_2_ascii(cv::VideoCapture& video)
 			}
 			print_buffer += "\n";
 		}
-
+		
+		// hide cursor find a better solution
+		system("printf \"\\e[?25l\" ");
+		
 		system("clear"); 
 
 		std::cout << print_buffer;
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(frame_dur));
 	}
+	
+	system("printf \"\\e[?25h\" ");
 
 	return 0; 
 }
@@ -181,7 +191,7 @@ int main(int argc, char* argv[])
 		}
 	
 		//TODO: either find a library to do this for me, or figure out how to add the correct path to the output/create a file for the output
-		system("ffplay -autoexit -window_title \"ASCII Video Player\" ~/Downloads/output.wav &"); 
+		system("ffplay -loglevel quiet -autoexit -window_title \"ASCII Video Player\" ~/Downloads/output.wav &"); 
 
 		if (fn_video_2_ascii(cv_video) == 1)
 		{
