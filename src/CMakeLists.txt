@@ -9,6 +9,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(ascii 
 	main.cpp
+	video_ascii.cpp
+	image_ascii.cpp
 )
 
 target_include_directories(ascii PRIVATE
